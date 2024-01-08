@@ -1,0 +1,76 @@
+@import 'bootstrap/scss/bootstrap';
+body{
+  background-color: #fafafa;
+}
+
+.row{
+  margin: 0;
+}
+.col{
+  padding: 0;
+}
+.puzzle-part-div{
+  background-color: white;
+  max-width: 173px;
+  height: 115px;
+  border: 1px solid black;
+}
+.puzzle-parts-container{
+  width: 517px;
+}
+.puzzle-game-navbar{
+  height: 100px;
+  background-color: #45474B;
+  box-shadow: 5px 5px 10px 2px #D0D4CA;
+  border-bottom: 2px solid #D0D4CA;
+}
+.result-picture-game{
+  border: 20px solid #d28b00;
+  border-radius: 20px;
+  width: 517px;
+  height: 345px;
+  box-shadow: 5px 5px 10px 2px #FFDD95;
+}
+.puzzle-parts-shuffled-container{
+  box-shadow: 5px 5px 10px 2px #D0D4CA;
+  border: 2px solid #D0D4CA;
+  border-radius: 20px;
+  background-color: #45474B;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.navbar-brand{
+  font-size: 55px;
+  color: #D0D4CA;
+  display: flex;
+  align-items: center;
+  i{
+    font-size: 100px;
+  }
+}
+.label-container{
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+  color: #6c757d;
+}
+.navbar-timer-div{
+  border-radius: 50%;
+  background-color: #D0D4CA;
+  width: 90px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  i{
+    color: #6c757d;
+    font-size: 40px;
+  }
+  span{
+    font-weight: bold;
+    color: #d28b00;
+    font-size: 20px;
+  }
+}
