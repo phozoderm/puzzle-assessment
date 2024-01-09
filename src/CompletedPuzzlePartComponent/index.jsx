@@ -5,8 +5,9 @@ import {useDrop} from "react-dnd";
 export function CompletedPuzzlePartComponent(props) {
     const [{}, drop] = useDrop(() => ({
         accept: 'picturePuzzlePart',
-        drop: () => props.drop()
-    }))
+        drop: () => props.drop(),
+        canDrop: ()=> props.canDrop(),
+    }), [props.canDrop])
     return (
         <div ref={drop} onClick={props.onClick}
              className='puzzle-part-div'>

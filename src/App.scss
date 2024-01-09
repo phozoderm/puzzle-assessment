@@ -37,7 +37,8 @@ body {
   height: 345px;
   box-shadow: 5px 5px 10px 2px #FFDD95;
 }
-.result-completed-picture{
+
+.result-completed-picture {
   border: 20px solid #508D69;
 }
 
@@ -58,9 +59,10 @@ body {
   display: flex;
   align-items: center;
   height: 100%;
+
   &:hover {
-  color: #D0D4CA;
-}
+    color: #D0D4CA;
+  }
 
   i {
     font-size: 100px;
@@ -71,8 +73,30 @@ body {
   font-size: 30px;
   display: flex;
   justify-content: center;
-  margin-bottom: 30px;
+  margin-top: 40px;
   color: #6c757d;
+}
+
+.navbar-timer-try-again-button-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  .try-again-button-div{
+    margin-left: 30px;
+    button{
+      height: 50px;
+      background-color: #d28b00;
+      border-color: #d28b00;
+      &:hover{
+        background-color: #e6a11c;
+        border-color: #e6a11c;
+      }
+      &:active{
+        background-color: #e6a11c;
+        border-color: #e6a11c;
+      }
+    }
+  }
 }
 
 .navbar-timer-div {
@@ -101,7 +125,7 @@ body {
 
   button {
     background-color: #d28b00;
-    color: #D0D4CA;
+    color: white;
     border: #45474B;
 
     &:hover {
@@ -114,13 +138,23 @@ body {
   }
 }
 
-.modal-score-form-group {
+.modal-score-form-div {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  border: 10px solid #d28b00;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
 
-  input {
-    width: 100px;
-    height: 75px;
+  span {
+    font-size: 40px;
+    color: #45474B;
   }
+}
+.modal-score-form-completed-div{
+  border: 10px solid #508D69;
+}
+.username-form-control{
+  background-color: #fafafa;
 }

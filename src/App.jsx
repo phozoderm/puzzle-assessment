@@ -32,21 +32,19 @@ const puzzlePartsShuffled = puzzleParts
     .map(({value}) => value)
 
 function App({pictureIndex}) {
-    console.log({pictureIndex})
     const [chosenPuzzlePartIndex, setChosenPuzzlePartIndex] = useState(null);
     const [shuffledPuzzleParts, setShuffledPuzzleParts] = useState(puzzlePartsShuffled);
     const [completedPuzzleParts, setCompletedPuzzleParts] = useState([null, null, null, null, null, null, null, null, null]);
     const [show, setShow] = useState(false);
     const [score, setScore] = useState(0);
     const [username, setUsername] = useState('');
-    const [remainingSeconds, setRemainingSeconds] = useState(60)
-    const [timerIntervalId, setTimerIntervalId] = useState(-1)
+    const [remainingSeconds, setRemainingSeconds] = useState(60);
+    const [timerIntervalId, setTimerIntervalId] = useState(-1);
+    const [isTryAgainButtonVisible, setTryAgainButtonVisible] = useState(false)
 
     useEffect(() => {
         const id = setInterval(() => {
             setRemainingSeconds(prevValue => prevValue - 1)
-
-
         }, 1000)
         setTimerIntervalId(id)
     }, []);
@@ -71,6 +69,7 @@ function App({pictureIndex}) {
         }).then((res) => {
             if (res.ok) {
                 handleClose()
+                setTryAgainButtonVisible(true)
             }
         }).catch(() => {
             //todo
@@ -84,6 +83,10 @@ function App({pictureIndex}) {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+
+    function canDrop(i) {
+        return shuffledPuzzleParts[chosenPuzzlePartIndex] === puzzleParts[i];
+    }
 
     function onCompletedPuzzlePartClick(i) {
         if (chosenPuzzlePartIndex == null) {
@@ -118,6 +121,10 @@ function App({pictureIndex}) {
         onCompletedPuzzlePartClick(pictureIndex)
     }
 
+    function tryAgainButton() {
+        window.location.reload()
+    }
+
     const isCompleted = completedPuzzleParts.filter(e => e == null).length === 0
 
     return (
@@ -128,41 +135,52 @@ function App({pictureIndex}) {
                         <i className="bi bi-puzzle-fill"></i>
                         Puzzle
                     </Navbar.Brand>
-                    <div className='navbar-timer-div'>
-                        <i className="bi bi-hourglass-split"></i>
-                        <span>{remainingSeconds}</span>
+                    <div className='navbar-timer-try-again-button-div'>
+                        <div className='navbar-timer-div'>
+                            <i className="bi bi-hourglass-split"></i>
+                            <span>{remainingSeconds}</span>
+                        </div>
+                        {isTryAgainButtonVisible ?
+                            <div className='try-again-button-div'>
+                                <Button onClick={tryAgainButton}>Try Again!</Button>
+                            </div> : null
+                        }
                     </div>
                 </Navbar>
-                <Container fluid className='d-flex justify-content-center vh-100'>
-                    <Row>
-                        <Col>
+                <Container fluid className='vh-100'>
+                    <Row className='m-5'>
+                        <Col className='d-flex align-items-center justify-content-center'>
                             <div className='label-container'>
                                 <label>Drag the tiles to form the picture</label>
                             </div>
                         </Col>
-                        <Row>
-                            <Col className='d-flex justify-content-center'>
-                                <div className={`result-picture-game ${isCompleted ? 'result-completed-picture' : ''}`}>
-                                    <Image width='100%' height='100%' src={result}/>
-                                </div>
-                            </Col>
+                    </Row>
+                    <Row className='m-5'>
+                        <Col className='d-flex justify-content-center'>
+                            <div className={`result-picture-game ${isCompleted ? 'result-completed-picture' : ''}`}>
+                                <Image width='100%' height='100%' src={result}/>
+                            </div>
+                        </Col>
 
-                            <Col className='d-flex justify-content-center'>
-                                <div className='puzzle-parts-container'>
-                                    <Row xs={3}>
-                                        {
-                                            completedPuzzleParts.map((completedPuzzlePart, i) =>
-                                                <Col key={`completed_${i}`}>
-                                                    <CompletedPuzzlePartComponent
-                                                        completedPuzzlePart={completedPuzzlePart}
-                                                        drop={() => movePicturePuzzlePart(i)}/>
-                                                </Col>
-                                            )
-                                        }
-                                    </Row>
-                                </div>
-                            </Col>
-                        </Row>
+                        <Col className='d-flex justify-content-center'>
+                            <div className='puzzle-parts-container'>
+                                <Row xs={3}>
+                                    {
+                                        completedPuzzleParts.map((completedPuzzlePart, i) =>
+                                            <Col key={`completed_${i}`}>
+                                                <CompletedPuzzlePartComponent
+                                                    completedPuzzlePart={completedPuzzlePart}
+                                                    drop={() => movePicturePuzzlePart(i)}
+                                                    canDrop={() => canDrop(i)}
+                                                />
+                                            </Col>
+                                        )
+                                    }
+                                </Row>
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row className='mt-5 mb-5'>
                         <div className='puzzle-parts-shuffled-container'>
                             {shuffledPuzzleParts.map((puzzlePart, i) =>
                                 (
@@ -185,20 +203,23 @@ function App({pictureIndex}) {
             </Container>
 
 
-            <Modal size='sm' centered show={show} onHide={handleClose}>
+            <Modal keyboard={false} backdrop='static' size='sm' centered show={show} onHide={handleClose}>
                 <Modal.Header className='modal-header-footer'>
-                    <Modal.Title>{isCompleted? "You Won! 🎉" : "You Lost!"}</Modal.Title>
+                    <Modal.Title>{isCompleted ? "You Won! 🎉" : "You Lost!"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-                        <Form.Group
-                            className="mb-3 modal-score-form-group"
-                        >
-                            <Form.Control value={score} disabled/>
-                        </Form.Group>
+                        <div className='d-flex justify-content-center'>
+                            <div
+                                className={`mb-3 modal-score-form-div ${isCompleted ? 'modal-score-form-completed-div' : ''}`}>
+                                <span>{score}</span>
+                            </div>
+                        </div>
+
                         <Form.Group className="mb-3">
                             <Form.Label>Username</Form.Label>
                             <Form.Control
+                                className='username-form-control'
                                 onChange={onChangeUsername}
                                 type="text"
                                 placeholder="Username"

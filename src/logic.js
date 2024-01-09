@@ -13,7 +13,7 @@ export function observe(o) {
     emitChange()
 }
 
-export function movePicturePuzzlePart(newPictureIndex) {
+export function  movePicturePuzzlePart(newPictureIndex) {
     pictureIndex = newPictureIndex
     emitChange()
 }
